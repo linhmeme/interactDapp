@@ -1,0 +1,3 @@
+pub const LENDING_SEED: &[u8] = b"LENDING_SEED";
+pub const F_TOKEN_MINT_SEED: &[u8] = b"F_TOKEN_MINT_SEED";
+pub const LENDING_ADMIN_SEED: &[u8] = b"LENDING_ADMIN_SEED";

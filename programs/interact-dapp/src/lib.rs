@@ -1,29 +1,33 @@
 use anchor_lang::prelude::*;
+pub mod error;
+pub mod constant;
 pub mod instructions;
-pub use instructions::*; 
+use crate::instructions::*;
 
-declare_id!("3XVtwgUZ7P1xhMJ96yHzKaoSMGF7f1DbY4RLP7AyLLMn");
+declare_id!("DC2y62K2opFJ21AMZwcYG7HDaNfUTU4YZszpnpG18r61");
 
 #[program]
-pub mod your_program {
+pub mod interact_dapp {
     use super::*;
-
-    pub fn raydium_swap_cpi(
-        ctx: Context<RaydiumSwapCpi>,
-        amount_in: u64,
-        min_amount_out: u64,
+    pub fn deposit_earn(ctx: Context<DepositParams>, amount: u64) -> Result<()> {
+        ctx.accounts.deposit_earn(amount)
+    }
+    pub fn withdraw_earn(ctx: Context<WithdrawParams>, assets: u64) -> Result<()> {
+        ctx.accounts.withdraw_earn(assets)
+    }
+    pub fn proxy_swap<'a, 'b, 'c: 'info, 'info>(
+        ctx: Context<'a, 'b, 'c, 'info, ProxySwap<'info>>,
+        amount: u64,
+        other_amount_threshold: u64,
+        sqrt_price_limit_x64: u128,
+        is_base_input: bool,
     ) -> Result<()> {
-        instructions::raydium_swap::raydium_swap_cpi(ctx, amount_in, min_amount_out)
-    }
-
-    pub fn jupiter_deposit_cpi(ctx: Context<JupiterLendCpi>, amount: u64) -> Result<()> {
-        instructions::jupiter_deposit::jupiter_deposit_cpi(ctx, amount)
-    }
-
-    pub fn jupiter_withdraw_cpi(ctx: Context<JupiterLendCpi>, amount: u64) -> Result<()> {
-        instructions::jupiter_withdraw::jupiter_withdraw_cpi(ctx, amount)
+        instructions::proxy_swap(
+            ctx,
+            amount,
+            other_amount_threshold,
+            sqrt_price_limit_x64,
+            is_base_input,
+        )
     }
 }
-
-#[derive(Accounts)]
-pub struct Initialize {}

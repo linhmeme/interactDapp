@@ -1,7 +1,5 @@
-pub mod raydium_swap;
-pub mod jupiter_deposit;
-pub mod jupiter_withdraw;
+pub mod jupiter_earn;
+pub mod raydium;
 
-pub use raydium_swap::*;
-pub use jupiter_deposit::*;
-pub use jupiter_withdraw::*;
+pub use jupiter_earn::*;
+pub use raydium::*;
